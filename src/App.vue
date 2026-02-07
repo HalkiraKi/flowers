@@ -19,7 +19,7 @@
     <template v-if="dialogStep === 'sure'">
       <div style="color: white">Are you sure?</div>
       <div class="dialog-buttons">
-        <button ref="runawayRef" class="fall-button runaway" :style="{ transform: `translate(${runawayOffset.x}px, ${runawayOffset.y}px)` }" @mouseover="moveRunaway">Yes</button>
+        <button ref="runawayRef" class="fall-button runaway" :style="{ transform: `translate(${runawayOffset.x}px, ${runawayOffset.y}px)` }" @mouseover="moveRunaway" @click="sureYes">Yes</button>
         <button class="fall-button" @click="sureNo">No</button>
       </div>
     </template>
@@ -229,6 +229,11 @@ const gridStyle = computed(() => ({
   100% { background-color: black; }
 }
 
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
 @keyframes glow {
   0%, 100% { box-shadow: 0 0 8px rgba(255, 100, 150, 0.4); }
   50% { box-shadow: 0 0 20px rgba(255, 100, 150, 0.8); }
@@ -272,6 +277,21 @@ const gridStyle = computed(() => ({
 
   &.special {
     cursor: url('@/assets/cursors/heart_32.png'), pointer;
+    position: relative;
+
+    &::after {
+      @media (max-width: 767px) {
+        content: '';
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255, 100, 150, 0.9);
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+    }
   }
 
   &.party {
@@ -331,6 +351,14 @@ const gridStyle = computed(() => ({
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
   outline: none;
   position: relative;
+
+  @media (max-width: 767px) {
+    width: 85vw;
+    height: 250px;
+    padding: 2rem 1.5rem;
+    font-size: 1.5rem;
+    border-radius: 18px;
+  }
 }
 
 .close-button {
@@ -341,7 +369,7 @@ const gridStyle = computed(() => ({
   border: none;
   color: #fff;
   font-size: 1.8rem;
-  cursor: pointer;
+  cursor: url('@/assets/cursors/hover_32.png'), pointer;
   line-height: 1;
   padding: 0;
   opacity: 0.7;
@@ -370,13 +398,18 @@ const gridStyle = computed(() => ({
   font-weight: 400;
   font-size: 1rem;
   padding: 0.7rem 1.5rem;
+
+  @media (max-width: 767px) {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+  }
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: #fff;
-  cursor: pointer;
+  cursor: url('@/assets/cursors/hover_32.png'), pointer;
   transition: background 0.3s;
 
   &:hover {
